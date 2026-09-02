@@ -7,7 +7,7 @@ export const firebaseConfig = {
   authDomain: "well-mat-delivery.firebaseapp.com",
   projectId: "well-mat-delivery",
   messagingSenderId: "1079278372366",
-  appId: "1:1079278372366:web:ce71bc8573f16ac5ba1e5f
+  appId: "1:1079278372366:web:ce71bc8573f16ac5ba1e5f"
 };
 // Ghi chú: không cần "storageBucket" — ứng dụng không dùng Firebase Storage
 // (ảnh/chữ ký được nén và lưu trực tiếp trong Firestore, xem README.md).
