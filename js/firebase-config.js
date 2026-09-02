@@ -3,11 +3,11 @@
 // Xem hướng dẫn lấy các giá trị này trong README.md (Bước 1).
 // =====================================================================
 export const firebaseConfig = {
-  apiKey: "DÁN_API_KEY_VÀO_ĐÂY",
-  authDomain: "TÊN-DỰ-ÁN.firebaseapp.com",
-  projectId: "TÊN-DỰ-ÁN",
-  messagingSenderId: "DÁN_SENDER_ID",
-  appId: "DÁN_APP_ID"
+  apiKey: "AIzaSyAoGjzIhKPWAfGD1otUc5TVqLKPxCUTV3c",
+  authDomain: "well-mat-delivery.firebaseapp.com",
+  projectId: "well-mat-delivery",
+  messagingSenderId: "1079278372366",
+  appId: "1:1079278372366:web:ce71bc8573f16ac5ba1e5f
 };
 // Ghi chú: không cần "storageBucket" — ứng dụng không dùng Firebase Storage
 // (ảnh/chữ ký được nén và lưu trực tiếp trong Firestore, xem README.md).
