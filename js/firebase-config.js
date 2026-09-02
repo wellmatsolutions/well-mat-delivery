@@ -3,14 +3,20 @@
 // Xem hướng dẫn lấy các giá trị này trong README.md (Bước 1).
 // =====================================================================
 export const firebaseConfig = {
-  apiKey: "AIzaSyAlDOZ50AfxWgf-TTDfWQVPFd7TOV4MiOQ",
-  authDomain: "wellmat-delivery.firebaseapp.com",
-  projectId: "wellmat-delivery",
-  storageBucket: "wellmat-delivery.firebasestorage.app",
-  messagingSenderId: "984745483914",
-  appId: "1:984745483914:web:2ba545752d28d50b951773",
-  measurementId: "G-C3Y3HMN4YK"
+  apiKey: "DÁN_API_KEY_VÀO_ĐÂY",
+  authDomain: "TÊN-DỰ-ÁN.firebaseapp.com",
+  projectId: "TÊN-DỰ-ÁN",
+  messagingSenderId: "DÁN_SENDER_ID",
+  appId: "DÁN_APP_ID"
 };
+// Ghi chú: không cần "storageBucket" — ứng dụng không dùng Firebase Storage
+// (ảnh/chữ ký được nén và lưu trực tiếp trong Firestore, xem README.md).
+
+// Ghi chú về "apiKey": giá trị này KHÔNG phải là khóa bí mật — Firebase
+// thiết kế để apiKey lộ ra công khai trong mã nguồn web (khác với API key
+// của server truyền thống). Việc GitHub/Google quét thấy và cảnh báo là
+// hành vi tự động bình thường. Bảo mật thật sự nằm ở Security Rules của
+// Firestore và Firebase Authentication — xem README.md.
 
 // Thông tin công ty — dùng làm mặc định trên mọi phiếu giao hàng.
 export const COMPANY = {

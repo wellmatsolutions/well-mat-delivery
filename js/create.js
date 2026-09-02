@@ -85,9 +85,9 @@ form.addEventListener("submit", async (e) => {
     createdAt: serverTimestamp(),
     // Điền bởi tài xế / khách hàng khi ký nhận:
     receiverName: "",
-    signatureUrl: "",
+    signatureImage: "",
     deliveredAt: "",
-    vehiclePhotoUrls: []
+    vehiclePhotos: []
   };
 
   submitBtn.disabled = true;

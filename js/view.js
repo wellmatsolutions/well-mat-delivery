@@ -69,15 +69,15 @@ function renderDoc(n){
       <div class="sign-box">
         <div class="role">BÊN NHẬN</div>
         <div class="sub">${done ? "Đã ký nhận qua điện thoại" : "Chưa ký nhận"}</div>
-        ${n.signatureUrl ? `<img class="sign-img" src="${n.signatureUrl}">` : `<p style="color:var(--ink-soft);font-size:0.82rem;">(chưa có chữ ký)</p>`}
+        ${n.signatureImage ? `<img class="sign-img" src="${n.signatureImage}">` : `<p style="color:var(--ink-soft);font-size:0.82rem;">(chưa có chữ ký)</p>`}
         <div class="name-line">Người nhận: <strong>${n.receiverName||"—"}</strong></div>
         <div class="name-line">Giờ giao: <strong>${n.deliveredAt||"—"}</strong></div>
       </div>
     </div>
 
-    ${n.vehiclePhotoUrls && n.vehiclePhotoUrls.length ? `
+    ${n.vehiclePhotos && n.vehiclePhotos.length ? `
       <div class="doc-section-title">Hình ảnh xe giao hàng</div>
-      <div class="photo-strip">${n.vehiclePhotoUrls.map(u=>`<img src="${u}" crossorigin="anonymous">`).join("")}</div>
+      <div class="photo-strip">${n.vehiclePhotos.map(u=>`<img src="${u}">`).join("")}</div>
     ` : ""}
   </div>`;
 }
