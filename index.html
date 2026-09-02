@@ -49,7 +49,7 @@
 <footer class="site">CÔNG TY TNHH WELL MAT SOLUTIONS · sales@well-mat.com</footer>
 
 <script type="module">
-import { db, collection, getDocs, query, orderBy } from "./js/firebase-init.js";
+import { db, collection, getDocs, deleteDoc, doc, query, orderBy, auth, onAuthStateChanged } from "./js/firebase-init.js";
 
 const listEl = document.getElementById("list");
 const msgEl = document.getElementById("msg");
@@ -84,8 +84,29 @@ function render(notes){
       <span class="status-pill ${done ? "done" : "pending"}">
         ${done ? "✔ Đã ký nhận" : "⏳ Chờ giao"}
       </span>
+      <button type="button" class="row-del" data-id="${n.id}" data-name="${(n.customerName || n.code || n.id).replace(/"/g,"&quot;")}" title="Xóa phiếu này">🗑</button>
     </a>`;
   }).join("");
+
+  listEl.querySelectorAll(".row-del").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      const name = btn.dataset.name;
+      if(!confirm(`Xóa phiếu giao hàng của "${name}"?\n\nHành động này không thể hoàn tác.`)) return;
+      btn.disabled = true;
+      try{
+        await deleteDoc(doc(db, "deliveryNotes", id));
+        allNotes = allNotes.filter(n => n.id !== id);
+        render(allNotes);
+      }catch(err){
+        console.error(err);
+        msgEl.innerHTML = `<div class="msg error">Không xóa được phiếu: ${err.message}</div>`;
+        btn.disabled = false;
+      }
+    });
+  });
 }
 
 async function load(){
@@ -112,7 +133,11 @@ searchEl.addEventListener("input", () => {
   ));
 });
 
-load();
+// Chỉ tải danh sách phiếu SAU KHI Firebase xác nhận đã đăng nhập xong,
+// tránh lỗi "Missing or insufficient permissions" do gọi Firestore quá sớm.
+onAuthStateChanged(auth, (user) => {
+  if(user) load();
+});
 </script>
 </body>
 </html>

@@ -45,7 +45,13 @@ function buildOverlay(){
       if(err.code === "auth/invalid-email") text = "Email không hợp lệ.";
       if(err.code === "auth/invalid-credential" || err.code === "auth/wrong-password" || err.code === "auth/user-not-found")
         text = "Sai email hoặc mật khẩu.";
-      if(err.code === "auth/too-many-requests") text = "Bạn đã thử sai quá nhiều lần, vui lòng đợi một lúc rồi thử lại.";
+      if(err.code === "auth/too-many-requests") text = "Bạn đã thử sai quá nhiều lần, vui lòng đợi vài phút rồi thử lại (hoặc đặt lại mật khẩu trong Firebase Console).";
+      if(err.code === "auth/operation-not-allowed") text = "Chưa bật đăng nhập Email/Password trong Firebase Console (Authentication → Sign-in method).";
+      if(err.code === "auth/network-request-failed") text = "Lỗi kết nối mạng, vui lòng kiểm tra lại internet.";
+      if(err.code === "auth/api-key-not-valid" || err.code === "auth/invalid-api-key") text = "Cấu hình Firebase (apiKey) trong firebase-config.js không đúng.";
+      if(!["auth/invalid-email","auth/invalid-credential","auth/wrong-password","auth/user-not-found","auth/too-many-requests","auth/operation-not-allowed","auth/network-request-failed","auth/api-key-not-valid","auth/invalid-api-key"].includes(err.code)){
+        text = `Đăng nhập thất bại (mã lỗi: ${err.code || "không rõ"}). Mở Console trình duyệt (F12) để xem chi tiết.`;
+      }
       errEl.textContent = text;
       btn.disabled = false;
       btn.textContent = "Đăng nhập";

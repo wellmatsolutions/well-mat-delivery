@@ -90,6 +90,18 @@ Kể từ 03/02/2026, Google bắt buộc phải nâng cấp lên gói **Blaze**
 
 Nếu sau này muốn lưu ảnh chất lượng cao không giới hạn, có thể nâng cấp lên gói Blaze và khôi phục lại Firebase Storage — báo lại để được hỗ trợ chuyển đổi.
 
+## Xử lý lỗi "Không đăng nhập được vào trang quản trị"
+
+Kiểm tra lần lượt theo thứ tự sau — đây là các nguyên nhân phổ biến nhất:
+
+1. **Chưa bật phương thức đăng nhập Email/Password** — vào Firebase Console → **Authentication → Sign-in method** → kiểm tra dòng **Email/Password** đã ở trạng thái **Enabled** chưa. Đây là nguyên nhân hay gặp nhất (dễ quên bước này). Nếu chưa bật, hệ thống sẽ báo lỗi "Chưa bật đăng nhập Email/Password...".
+2. **Chưa tạo tài khoản, hoặc tạo nhầm chỗ** — vào **Authentication → Users**, kiểm tra email quản trị có nằm trong danh sách không. Lưu ý: tài khoản này khác hoàn toàn với việc thêm dữ liệu vào Firestore — phải tạo đúng ở tab **Authentication → Users → Add user**, không phải ở Firestore Database.
+3. **Gõ sai email/mật khẩu** — kiểm tra không có khoảng trắng thừa ở đầu/cuối, đúng hoa/thường của mật khẩu.
+4. **Bị khóa tạm do thử sai quá nhiều lần** — Firebase sẽ tạm khóa vài phút sau nhiều lần đăng nhập sai liên tục (báo lỗi "quá nhiều lần"). Đợi khoảng 5–10 phút rồi thử lại, hoặc đặt lại mật khẩu ở bước 5.
+5. **Cấu hình `js/firebase-config.js` sai** — kiểm tra lại `apiKey`, `authDomain`, `projectId`... đã copy đúng, đủ, không thiếu dấu ngoặc/dấu phẩy so với Firebase Console → Project settings.
+6. **Quên mật khẩu / muốn đổi mật khẩu** — vào **Authentication → Users** → chọn tài khoản → bấm vào dòng ba chấm (⋮) → **Reset password**, hoặc xóa và tạo lại tài khoản mới.
+7. **Xem lỗi cụ thể:** mở trang trên máy tính, bấm F12 → tab Console, thử đăng nhập lại, đọc dòng lỗi đỏ bắt đầu bằng `FirebaseError: auth/...` — gửi lại mã lỗi đó (VD: `auth/user-not-found`) để được hỗ trợ chính xác hơn.
+
 ## Xử lý lỗi "Không lưu được sau khi ký/chụp ảnh"
 
 1. **Đã Publish Rules chưa?** (xem Bước 3) — quên bấm Publish là nguyên nhân phổ biến nhất.

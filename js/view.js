@@ -1,4 +1,4 @@
-import { db, doc, getDoc } from "./firebase-init.js";
+import { db, doc, getDoc, deleteDoc } from "./firebase-init.js";
 import { COMPANY } from "./firebase-config.js";
 
 const params = new URLSearchParams(location.search);
@@ -8,6 +8,8 @@ const msgEl = document.getElementById("msg");
 const linkBoxWrap = document.getElementById("linkBoxWrap");
 const statusLine = document.getElementById("statusLine");
 const downloadPdfBtn = document.getElementById("downloadPdfBtn");
+const deleteBtn = document.getElementById("deleteBtn");
+let currentNote = null;
 
 function fmtDate(d){
   if(!d) return "—";
@@ -94,6 +96,7 @@ async function load(){
       return;
     }
     const n = snap.data();
+    currentNote = n;
     statusLine.textContent = n.status === "done"
       ? `Đã ký nhận lúc ${n.deliveredAt || ""} · ${fmtDate(n.deliveryDate)}`
       : `Chờ tài xế/khách hàng ký nhận`;
@@ -153,6 +156,22 @@ downloadPdfBtn.addEventListener("click", async () => {
   }finally{
     downloadPdfBtn.disabled = false;
     downloadPdfBtn.textContent = "Tải PDF";
+  }
+});
+
+deleteBtn.addEventListener("click", async () => {
+  const name = (currentNote && (currentNote.customerName || currentNote.code)) || noteId;
+  if(!confirm(`Xóa phiếu giao hàng của "${name}"?\n\nHành động này không thể hoàn tác.`)) return;
+  deleteBtn.disabled = true;
+  deleteBtn.textContent = "Đang xóa...";
+  try{
+    await deleteDoc(doc(db, "deliveryNotes", noteId));
+    location.href = "index.html";
+  }catch(err){
+    console.error(err);
+    msgEl.innerHTML = `<div class="msg error">Không xóa được phiếu: ${err.message}</div>`;
+    deleteBtn.disabled = false;
+    deleteBtn.textContent = "Xóa phiếu";
   }
 });
 
