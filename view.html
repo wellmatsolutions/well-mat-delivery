@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi tiết phiếu giao hàng — Well Mat Solutions</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar no-print">
+  <div class="topbar-inner">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Well Mat Solutions" onerror="this.style.display='none'">
+      <div class="brand-text">
+        <div class="name">WELL MAT SOLUTIONS</div>
+        <div class="tag">Hệ thống phiếu giao hàng</div>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Danh sách phiếu</a>
+      <a href="create.html">Tạo phiếu mới</a>
+    </nav>
+  </div>
+</div>
+
+<div class="page">
+  <div class="page-head no-print">
+    <div>
+      <h1>Chi tiết phiếu giao hàng</h1>
+      <p id="statusLine" style="color:var(--ink-soft)"></p>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="index.html" class="btn ghost">← Danh sách</a>
+      <button class="btn" id="downloadPdfBtn">Tải PDF</button>
+    </div>
+  </div>
+
+  <div id="msg" class="no-print"></div>
+  <div id="linkBoxWrap" class="no-print"></div>
+
+  <div id="docWrap"></div>
+</div>
+
+<footer class="site no-print">CÔNG TY TNHH WELL MAT SOLUTIONS · sales@well-mat.com</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script type="module" src="js/view.js"></script>
+</body>
+</html>

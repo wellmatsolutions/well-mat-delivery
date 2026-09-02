@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danh sách phiếu giao hàng — Well Mat Solutions</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Well Mat Solutions" onerror="this.style.display='none'">
+      <div class="brand-text">
+        <div class="name">WELL MAT SOLUTIONS</div>
+        <div class="tag">Hệ thống phiếu giao hàng</div>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html" class="active">Danh sách phiếu</a>
+      <a href="create.html">Tạo phiếu mới</a>
+    </nav>
+  </div>
+</div>
+
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1>Danh sách phiếu giao hàng</h1>
+      <p>Theo dõi tình trạng giao hàng và tải phiếu đã ký nhận.</p>
+    </div>
+    <a href="create.html" class="btn amber">+ Tạo phiếu mới</a>
+  </div>
+
+  <div id="msg"></div>
+
+  <div class="field" style="max-width:320px">
+    <label for="search">Tìm theo tên khách hàng / mã phiếu</label>
+    <input type="text" id="search" placeholder="VD: Công ty ABC hoặc WMS-2026...">
+  </div>
+
+  <div id="list" class="note-list"></div>
+</div>
+
+<footer class="site">CÔNG TY TNHH WELL MAT SOLUTIONS · sales@well-mat.com</footer>
+
+<script type="module">
+import { db, collection, getDocs, query, orderBy } from "./js/firebase-init.js";
+
+const listEl = document.getElementById("list");
+const msgEl = document.getElementById("msg");
+const searchEl = document.getElementById("search");
+let allNotes = [];
+
+function fmtDate(d){
+  if(!d) return "—";
+  try{
+    const dt = typeof d === "string" ? new Date(d) : d;
+    return dt.toLocaleDateString("vi-VN");
+  }catch(e){ return d; }
+}
+
+function render(notes){
+  if(notes.length === 0){
+    listEl.innerHTML = `<div class="empty"><div class="big">📦</div>Chưa có phiếu giao hàng nào.<br><a href="create.html" class="btn amber" style="margin-top:14px;display:inline-flex;">+ Tạo phiếu đầu tiên</a></div>`;
+    return;
+  }
+  listEl.innerHTML = notes.map(n => {
+    const done = n.status === "done";
+    return `
+    <a class="note-row ${done ? "done" : ""}" href="view.html?id=${n.id}">
+      <div class="col">
+        <span class="cust">${n.customerName || "(chưa có tên khách hàng)"}</span>
+        <span class="code">${n.code || n.id}</span>
+      </div>
+      <div class="col">
+        <span class="meta">Ngày giao: ${fmtDate(n.deliveryDate)}</span>
+        <span class="meta">Tài xế: ${n.driverName || "—"}</span>
+      </div>
+      <span class="status-pill ${done ? "done" : "pending"}">
+        ${done ? "✔ Đã ký nhận" : "⏳ Chờ giao"}
+      </span>
+    </a>`;
+  }).join("");
+}
+
+async function load(){
+  msgEl.innerHTML = `<div class="msg info">Đang tải danh sách phiếu...</div>`;
+  try{
+    const q = query(collection(db, "deliveryNotes"), orderBy("createdAt", "desc"));
+    const snap = await getDocs(q);
+    allNotes = [];
+    snap.forEach(d => allNotes.push({ id: d.id, ...d.data() }));
+    msgEl.innerHTML = "";
+    render(allNotes);
+  }catch(e){
+    console.error(e);
+    msgEl.innerHTML = `<div class="msg error">Không tải được dữ liệu. Kiểm tra lại cấu hình Firebase trong js/firebase-config.js. Chi tiết lỗi: ${e.message}</div>`;
+  }
+}
+
+searchEl.addEventListener("input", () => {
+  const q = searchEl.value.trim().toLowerCase();
+  if(!q){ render(allNotes); return; }
+  render(allNotes.filter(n =>
+    (n.customerName || "").toLowerCase().includes(q) ||
+    (n.code || n.id || "").toLowerCase().includes(q)
+  ));
+});
+
+load();
+</script>
+</body>
+</html>

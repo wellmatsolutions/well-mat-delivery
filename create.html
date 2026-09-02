@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tạo phiếu giao hàng — Well Mat Solutions</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <img src="assets/logo.png" alt="Well Mat Solutions" onerror="this.style.display='none'">
+      <div class="brand-text">
+        <div class="name">WELL MAT SOLUTIONS</div>
+        <div class="tag">Hệ thống phiếu giao hàng</div>
+      </div>
+    </div>
+    <nav>
+      <a href="index.html">Danh sách phiếu</a>
+      <a href="create.html" class="active">Tạo phiếu mới</a>
+    </nav>
+  </div>
+</div>
+
+<div class="page">
+  <div class="page-head">
+    <div>
+      <h1>Tạo phiếu giao hàng mới</h1>
+      <p>Điền thông tin giao hàng, sau đó tạo link gửi cho tài xế.</p>
+    </div>
+  </div>
+
+  <div id="msg"></div>
+
+  <form id="noteForm">
+
+    <div class="panel">
+      <div class="panel-head"><h2>Thông tin khách hàng</h2></div>
+      <div class="panel-body">
+        <div class="grid-2">
+          <div class="field">
+            <label for="customerName">Tên khách hàng *</label>
+            <input type="text" id="customerName" required placeholder="Công ty / cá nhân nhận hàng">
+          </div>
+          <div class="field">
+            <label for="taxCode">Mã số thuế</label>
+            <input type="text" id="taxCode" placeholder="VD: 0312345678">
+          </div>
+        </div>
+        <div class="field">
+          <label for="deliveryAddress">Địa chỉ giao hàng *</label>
+          <textarea id="deliveryAddress" required placeholder="Số nhà, đường, phường/xã, tỉnh/thành..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Sản phẩm giao hàng</h2></div>
+      <div class="panel-body">
+        <div class="items-table-wrap">
+          <table class="items-table" id="itemsTable">
+            <thead>
+              <tr>
+                <th style="width:24%">Tên sản phẩm</th>
+                <th style="width:20%">Quy cách đóng gói</th>
+                <th style="width:10%">Số lượng</th>
+                <th style="width:20%">Nhà sản xuất</th>
+                <th style="width:16%">Số Lot</th>
+                <th style="width:4%"></th>
+              </tr>
+            </thead>
+            <tbody id="itemsBody"></tbody>
+          </table>
+        </div>
+        <button type="button" class="btn ghost small" id="addItemBtn" style="margin-top:10px;">+ Thêm sản phẩm</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h2>Thông tin vận chuyển</h2></div>
+      <div class="panel-body">
+        <div class="grid-3">
+          <div class="field">
+            <label for="deliveryDate">Ngày giao hàng *</label>
+            <input type="date" id="deliveryDate" required>
+          </div>
+          <div class="field">
+            <label for="vehicleInfo">Thông tin xe *</label>
+            <input type="text" id="vehicleInfo" required placeholder="VD: Xe tải 51C-123.45">
+          </div>
+          <div class="field">
+            <label for="driverName">Tên tài xế *</label>
+            <input type="text" id="driverName" required placeholder="Nguyễn Văn A">
+          </div>
+        </div>
+        <div class="field" style="max-width:260px">
+          <label for="driverCccd">CCCD tài xế</label>
+          <input type="text" id="driverCccd" placeholder="Số căn cước công dân">
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn amber block" id="submitBtn">Tạo phiếu &amp; lấy link gửi tài xế</button>
+  </form>
+
+  <div class="panel" id="resultPanel" style="display:none; margin-top:22px;">
+    <div class="panel-head"><h2>✔ Đã tạo phiếu giao hàng</h2></div>
+    <div class="panel-body">
+      <p style="margin-top:0;color:var(--ink-soft);font-size:0.9rem;">Gửi link dưới đây cho tài xế (qua Zalo/SMS). Tài xế mở link trên điện thoại để điền thông tin ký nhận khi giao hàng xong.</p>
+      <div class="link-box">
+        <code id="linkOut"></code>
+        <button class="btn small" id="copyBtn" type="button">Sao chép link</button>
+      </div>
+      <div style="margin-top:16px;">
+        <img id="qrImg" alt="QR code" style="width:150px;height:150px;border:1px solid var(--paper-line);border-radius:var(--radius);">
+      </div>
+      <div style="margin-top:18px; display:flex; gap:10px; flex-wrap:wrap;">
+        <a href="index.html" class="btn ghost">Về danh sách phiếu</a>
+        <a href="#" class="btn amber" id="createAnotherBtn">Tạo phiếu khác</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="site">CÔNG TY TNHH WELL MAT SOLUTIONS · sales@well-mat.com</footer>
+
+<script type="module" src="js/create.js"></script>
+</body>
+</html>
